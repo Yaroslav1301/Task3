@@ -1,35 +1,19 @@
 <?php
+
 namespace Task3\DB\Controller\Index;
+
+
+use Magento\Framework\Controller\ResultFactory;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
-    protected $_pageFactory;
-
-    protected $_postFactory;
-
-    public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $pageFactory,
-        \Task3\DB\Model\PostFactory $postFactory
-    )
-    {
-        $this->_pageFactory = $pageFactory;
-        $this->_postFactory = $postFactory;
-        return parent::__construct($context);
-    }
-
-
+    /**
+     * @return \Magento\Framework\View\Result\Page
+     */
     public function execute()
     {
-        $post = $this->_postFactory->create();
-        $collection = $post->getCollection()->addFieldToFilter('Category',['eq'=>'fruits']);
-        $collection->addFieldToSelect(['name', 'url_key', 'tags', 'Category', 'created_at']);
-        foreach($collection as $item){
-            echo "<pre>";
-            print_r($item->getData());
-            echo "</pre>";
-        }
-        exit();
-        return $this->_pageFactory->create();
+        /** @var \Magento\Framework\View\Result\Page $resultPage */
+        $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
+        return $resultPage;
     }
 }
